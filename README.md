@@ -1,4 +1,4 @@
-# Projekt #3 - Webbserverprogrammering 1
+# Slutprojekt / Projekt #3 - Webbserverprogrammering 1
 Enskillt slutprojekt under hela vårterminen 2025 i kursen Webbserverprogrammering 1 på NTI Johanneberg.
 
 Under hela vårterminen kommer du att bygga en webbapplikation med de tekniker vi har lärt oss i kursen Webbserverprogrammering. Målet är att du ska få en användbar & fungerande webbapplikation.
