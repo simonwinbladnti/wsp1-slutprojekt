@@ -3,12 +3,16 @@ Enskillt slutprojekt under hela vårterminen 2025 i kursen Webbserverprogrammeri
 
 Under hela vårterminen kommer du att bygga en webbapplikation med de tekniker vi har lärt oss i kursen Webbserverprogrammering. Målet är att du ska få en användbar & fungerande webbapplikation.
 
-Du får välja att bygga vad du vill så länge det är rimliga projekt. Några exempel på tidigare projekt:
+Du får välja att bygga vad du vill så länge det är rimliga projekt. Exempel på tidigare projekt:
 
-* Webbshop
+![Webshop](docs/img/OmrFifa.jpg)  
+*Elevexempel: Webshop*
 
-![Exempel på ToDo applikation](docs/img/todo-app.png)  
-*Exempel på hur en ToDo-applikation kan se ut*
+![Pokemon](docs/img/LBFPokemon.jpg)  
+*Elevexempel: Pokemon*
+
+![Casino](docs/img/CasinoArkBra.jpg)  
+*Elevexempel: Casino*
 
 ## Uppgiftsbeskrivning & specifikation
 - Webbapplikation i Ruby med Sinatra och SQLite. 
