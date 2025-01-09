@@ -40,15 +40,10 @@ Du får välja att bygga vad du vill så länge det är rimliga projekt. Du kan 
 
 Alla skapar en projektplan som innehåller minst följande 4 punkter. Du skriver den i din loggbok. Alla bör uppdateras efter hand som projektet växer.
 
-#### Projektbeskrivning (domänbeskrivning)
-Beskriv vad applikationen ska kunna göra och vilka olika delar av applikationen som finns. Hur hänger delarna ihop?
-#### Vyer (enkla bildskisser på dina sidor)
-Gärna blyertskisser på papper. Ca 30 min skissande.
-#### Databas med ER-diagram (Bild på detaljerat ER-diagram)
-Kan utvecklas under projektets gång men du behöver ha arbeta fram en grund här.
-#### Arkitektur (Beskriv filer och mappar - vad gör/innehåller de?). 
-Skrivs efter hand.
-
+1. __Projektbeskrivning__ Beskriv vad applikationen ska kunna göra och vilka olika delar av applikationen som finns. Hur hänger delarna ihop?
+2. __Vyer__ Gärna blyertskisser på papper. Minst 30 min skissande.
+3. __Databas__ Bild på detaljerat ER-diagram. Kan utvecklas under projektets gång men du behöver ha arbeta fram en grund här.
+4. __Arkitektur__ Beskriv filer och mappar - vad gör/innehåller de? Skrivs efter hand.
 
 ### Bedömning
 
