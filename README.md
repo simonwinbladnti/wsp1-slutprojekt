@@ -36,7 +36,7 @@ Du får välja att bygga vad du vill så länge det är rimliga projekt. Du kan 
 - Under projektet kommer vi ha genomgångar och avstämningar för fler tekniker och avstämningsuppgifter. Jag har planerat att vi gör minst sekvensdiagram och E/R diagram.
 - På vägen kommer du få löpande tips för hur du kan göra koden snyggare, bättre och lättare att hantera. Främst via loggboken och Github.
 
-### 🗒️ Projektplan/beskrivning
+### 🗒️ Projektplan
 
 Alla skapar en projektplan som innehåller minst följande 4 punkter. Du skriver den i din loggbok. Alla bör uppdateras efter hand som projektet växer.
 
