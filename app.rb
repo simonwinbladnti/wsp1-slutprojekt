@@ -18,6 +18,13 @@ class App < Sinatra::Base
         session[:user_id]
     end
 
+    def current_team?
+        if session[:team_id]
+          db.execute("SELECT * FROM teams WHERE id = ?", session[:team_id]).first
+        end
+    end
+      
+
     def admin?
         current_user && current_user['username'] == 'admin'
     end
@@ -31,7 +38,37 @@ class App < Sinatra::Base
     end
 
     get '/index' do
+        @teams = db.execute("SELECT * FROM teams")
+        
+        @current_team = current_team?
+      
         erb :index
+      end
+      
+
+    post '/select_team' do
+        team_id = params[:team_id]
+    
+        session[:team_id] = team_id
+    
+        redirect '/index'
+    end
+
+    get '/calendar' do
+    
+        team_id = session[:team_id]
+        if team_id
+            @team = db.execute("SELECT * FROM teams WHERE id = ?", team_id).first
+            erb :calendar
+        else
+            redirect '/index'
+        end
+    end
+    
+    
+    
+    get '/team' do
+        erb :team
     end
     
     post '/login' do

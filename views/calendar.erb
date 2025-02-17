@@ -1,0 +1,20 @@
+<h1>Calendar for <%= @team['name'] %></h1>
+
+<% calendar = JSON.parse(@team['calendar']) %>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Location</th>
+    </tr>
+    <% calendar.each do |event, details| %>
+    <tr>
+        <td><%= details['date'] %></td>
+        <td><%= details['time'] %></td>
+        <td><%= details['location'] %></td>
+    </tr>
+    <% end %>
+</table>
+
+<a href="/index">Back to Teams</a>

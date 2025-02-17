@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Club Management - Team List</title>
+    <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
+</head>
+<body>
+    <header>
+        <div class="logo">Sports Club</div>
+        <div class="account-tab">
+            <button class="account-btn">Account</button>
+            <div class="account-dropdown">
+                <a href="login">Log In</a>
+                <a href="profile">View Profile</a>
+                <a href="settings">Settings</a>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index">Start</a></li>
+            <li><a href="team">Team</a></li>
+            <li><a href="calendar">Calendar</a></li>
+            <li><a href="series">Series</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Team List Section -->
+        <section id="team-list">
+            <h2>Team Members</h2>
+
+            <!-- Manager Section -->
+            <div class="team-section">
+                <h3>Manager</h3>
+                <ul id="manager-list">
+                    <!-- Backend will populate manager here -->
+                </ul>
+            </div>
+
+            <!-- Coach Section -->
+            <div class="team-section">
+                <h3>Coach</h3>
+                <ul id="coach-list">
+                    <!-- Backend will populate coach here -->
+                </ul>
+            </div>
+
+            <!-- Players Section -->
+            <div class="team-section">
+                <h3>Players</h3>
+                <ul id="players-list">
+                    <!-- Backend will populate players here -->
+                </ul>
+            </div>
+
+            <!-- Support Staff Section -->
+            <div class="team-section">
+                <h3>Support Staff</h3>
+                <ul id="support-staff-list">
+                    <!-- Backend will populate support staff here -->
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Sports Club Management. All rights reserved.</p>
+    </footer>
+</body>
+</html>

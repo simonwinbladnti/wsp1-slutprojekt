@@ -9,6 +9,11 @@
 <body>
     <header>
         <div class="logo">Sports Club</div>
+        <% if @current_team %>
+            <h1>Current Team: <%= @current_team['label'] %></h1>
+        <% else %>
+            <h1>Select a Team</h1>
+        <% end %>
         <div class="account-tab">
             <button class="account-btn">Account</button>
             <div class="account-dropdown">
@@ -29,6 +34,25 @@
     <main>
         <h1>Welcome to Sports Club Management</h1>
         <p>Manage your sports club activities, teams, and events with ease.</p>
+        <h1>Select a Team</h1>
+        <table>
+            <tr>
+                <th>Team Name</th>
+                <th>Action</th>
+            </tr>
+            <% @teams.each do |team| %>
+            <tr>
+                <td><%= team['name'] %></td>
+                <td>
+                    <form action="/select_team" method="post">
+                        <input type="hidden" name="team_id" value="<%= team['id'] %>">
+                        <button type="submit">Select</button>
+                    </form>
+                </td>
+            </tr>
+            <% end %>
+        </table>
+
     </main>
     <footer>
         <p>&copy; 2023 Sports Club Management. All rights reserved.</p>
