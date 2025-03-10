@@ -1,20 +1,65 @@
-<h1>Calendar for <%= @team['name'] %></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Club Management - <%= @team['name'] %> Calendar</title>
+    <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
+</head>
+<body>
+    <header>
+        <div class="logo">Sports Club</div>
+        <% if @current_team %>
+            <h1>Current Team: <%= @current_team['label'] %></h1>
+        <% else %>
+            <h1>Select a Team</h1>
+        <% end %>
+        <div class="account-tab">
+            <button class="account-btn">Account</button>
+            <div class="account-dropdown">
+                <a href="/login">Log In</a>
+                <a href="/profile">View Profile</a>
+                <a href="/settings">Settings</a>
+            </div>
+        </div>
+    </header>
 
-<% calendar = JSON.parse(@team['calendar']) %>
+    <nav>
+        <ul>
+            <li><a href="/index">Start</a></li>
+            <li><a href="/team">Team</a></li>
+            <li><a href="/calendar">Calendar</a></li>
+            <li><a href="/series">Series</a></li>
+        </ul>
+    </nav>
 
-<table>
-    <tr>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Location</th>
-    </tr>
-    <% calendar.each do |event, details| %>
-    <tr>
-        <td><%= details['date'] %></td>
-        <td><%= details['time'] %></td>
-        <td><%= details['location'] %></td>
-    </tr>
-    <% end %>
-</table>
+    <main>
+        <h1>Calendar for <%= @team['name'] %></h1>
 
-<a href="/index">Back to Teams</a>
+        <% if @calendar.any? %>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                </tr>
+                <% @calendar.each do |event| %>
+                    <tr>
+                        <td><%= event['event_date'] %></td>
+                        <td><%= event['event_time'] %></td>
+                        <td><%= event['event_location'] %></td>
+                    </tr>
+                <% end %>
+            </table>
+        <% else %>
+            <p>No calendar events found for this team.</p>
+        <% end %>
+
+        <a href="/index">Back to Teams</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Sports Club Management. All rights reserved.</p>
+    </footer>
+</body>
+</html>
