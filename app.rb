@@ -1,4 +1,6 @@
-    class App < Sinatra::Base
+require_relative 'models/users.rb'
+require_relative 'models/teams.rb'
+   class App < Sinatra::Base
 
         def db
             return @db if @db
@@ -20,17 +22,19 @@
 
         def current_team?
             if session[:team_id]
-            db.execute("SELECT * FROM teams WHERE id = ?", session[:team_id]).first
+                Teams.getCurrentTeam(session[:team_id])
             end
         end
         
 
         def admin?
-            current_user && current_user['username'] == 'admin'
+            current_user? && current_user['username'] == 'admin'
         end
 
-        def current_user
-            @current_user ||= db.execute("SELECT * FROM users WHERE id = ?", session[:user_id]).first if logged_in?
+        def current_user?
+            @current_user ||= Users.getCurrentUser(session[:user_id]) if logged_in?
+            print(@current_user)
+            return @current_user
         end
 
         get '/login' do
@@ -41,6 +45,7 @@
             @teams = db.execute("SELECT * FROM teams")
             
             @current_team = current_team?
+            @current_user = current_user?
         
             erb :index
         end
@@ -55,12 +60,13 @@
         end
 
         get '/calendar' do
+            @current_user = current_user?
             team_id = session[:team_id]
             if team_id
-                @team = db.execute("SELECT * FROM teams WHERE id = ?", team_id).first
+                @team = Teams.getTeam(team_id)
                 @current_team = current_team?
         
-                @calendar = db.execute("SELECT * FROM calendar WHERE team_id = ?", team_id)
+                @calendar = Teams.getCalendarFromTeam(team_id)
         
                 erb :calendar
             else
@@ -72,24 +78,58 @@
         
         
         get '/team' do
+            @current_user = current_user?
             @current_team = current_team? 
             @team = current_team?
 
             if @team
-            @players = db.execute("SELECT * FROM players WHERE team_id = ?", @team['id'])
+            @players = Teams.getPlayers(@team['id'])
             else
             @players = [] 
             end
         
             erb :team
         end
+
+        get '/profile' do
+            if current_user?
+                @user = current_user?
+                erb :profile
+            else
+                redirect '/login'
+            end
+        end
         
-        
+        post '/change_password' do
+            current_password = params[:current_password]
+            new_password = params[:new_password]
+            confirm_password = params[:confirm_password]
+          
+            user = current_user?
+          
+            if BCrypt::Password.new(user['password']) == current_password
+              if new_password == confirm_password
+                hashed_new_password = BCrypt::Password.create(new_password)
+                Users.updatePassword(user['id'], hashed_new_password)
+          
+                @message = "Password successfully updated."
+              else
+                @error = "New passwords do not match."
+              end
+            else
+              @error = "Current password is incorrect."
+            end
+          
+            @user = current_user?
+            erb :profile
+          end
+          
+
         post '/login' do
             username = params[:username]
             password = params[:password]
 
-            user = db.execute("SELECT * FROM users WHERE username = ?", username).first
+            user = Users.getUser(username)
 
             if user && BCrypt::Password.new(user['password']) == password
                 session[:user_id] = user['id']
@@ -106,6 +146,7 @@
         end
 
         get '/' do
+            @current_user = current_user?
             redirect('/login') unless logged_in?
             redirect('/index')
         end
@@ -114,7 +155,7 @@
             redirect('/login') unless logged_in?
             redirect('/index') unless admin? 
 
-            @users = db.execute('SELECT * FROM users')
+            @users = Users.All()
             erb(:"admin")
         end 
 
@@ -134,7 +175,7 @@
 
             password_hashed = BCrypt::Password.create(password)
 
-            db.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, password_hashed])
+            Users.createUser(username, password_hashed)
 
             redirect '/admin'
         end

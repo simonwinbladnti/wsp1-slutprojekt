@@ -41,27 +41,36 @@
     </nav>
 
     <main>
-        <!-- Team Section -->
-        <section id="team">
-            <% if @team %>
-                <h2>Team: <%= @team['name'] %></h2>
+        <section id="profile">
+            <h2>User Profile: <%= @user['username'] %></h2>
 
-                <!-- Players Section -->
-                <div class="team-section">
-                    <h3>Players</h3>
-                    <% if @players.any? %>
-                        <ul>
-                            <% @players.each do |player| %>
-                                <li><%= player['name'] %> - <%= player['role'] %></li>
-                            <% end %>
-                        </ul>
-                    <% else %>
-                        <p>No players found for this team.</p>
-                    <% end %>
-                </div>
-            <% else %>
-                <p>Please select a team to view details.</p>
+            <!-- Messages -->
+            <% if @message %>
+                <p class="success"><%= @message %></p>
+            <% elsif @error %>
+                <p class="error"><%= @error %></p>
             <% end %>
+
+            <!-- Change Password Section -->
+            <div class="change-password-section">
+                <h3>Change Password</h3>
+
+                <form action="/change_password" method="POST">
+                    <div>
+                        <label for="current_password">Current Password:</label>
+                        <input type="password" name="current_password" id="current_password" required>
+                    </div>
+                    <div>
+                        <label for="new_password">New Password:</label>
+                        <input type="password" name="new_password" id="new_password" required>
+                    </div>
+                    <div>
+                        <label for="confirm_password">Confirm New Password:</label>
+                        <input type="password" name="confirm_password" id="confirm_password" required>
+                    </div>
+                    <button type="submit">Change Password</button>
+                </form>
+            </div>
         </section>
     </main>
 

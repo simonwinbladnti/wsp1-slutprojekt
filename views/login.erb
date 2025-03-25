@@ -12,7 +12,11 @@
         <div class="account-tab">
             <button class="account-btn">Account</button>
             <div class="account-dropdown">
-                <a href="login.html">Log In</a>
+                <% if @current_user %>
+                    <a href="logout">Log Out</a>
+                <% else %>
+                    <a href="login">Log In</a>
+                <% end %>
                 <a href="#">View Profile</a>
                 <a href="#">Settings</a>
             </div>
@@ -23,7 +27,6 @@
             <li><a href="index.html">Start</a></li>
             <li><a href="#">Team</a></li>
             <li><a href="#">Calendar</a></li>
-            <li><a href="#">Series</a></li>
         </ul>
     </nav>
     <main>
