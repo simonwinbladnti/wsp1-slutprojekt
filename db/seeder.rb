@@ -2,7 +2,6 @@ require 'sqlite3'
 require 'bcrypt'
 
 class Seeder
-  
   def self.seed!
     drop_tables
     create_tables
@@ -14,6 +13,7 @@ class Seeder
     db.execute('DROP TABLE IF EXISTS teams')
     db.execute('DROP TABLE IF EXISTS calendar')
     db.execute('DROP TABLE IF EXISTS players')
+    db.execute('DROP TABLE IF EXISTS team_players')  # New junction table for many-to-many relationship
   end
 
   def self.create_tables
@@ -22,28 +22,35 @@ class Seeder
       username TEXT NOT NULL,
       password VARCHAR(255) NOT NULL
     )')
-    
+
     db.execute('CREATE TABLE teams (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       label VARCHAR(255) NOT NULL
     )')
-    
+
     db.execute('CREATE TABLE calendar (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       team_id INTEGER NOT NULL,
       event_date DATE NOT NULL,
       event_time TIME NOT NULL,
       event_location TEXT,
-      FOREIGN KEY (team_id) REFERENCES teams(id)
+      FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE
     )')
 
     db.execute('CREATE TABLE players (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
-      role TEXT NOT NULL,
+      role TEXT NOT NULL
+    )')
+
+    # Junction table for many-to-many relationship between players and teams
+    db.execute('CREATE TABLE team_players (
       team_id INTEGER NOT NULL,
-      FOREIGN KEY (team_id) REFERENCES teams(id)
+      player_id INTEGER NOT NULL,
+      PRIMARY KEY (team_id, player_id),
+      FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+      FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
     )')
   end
 
@@ -66,25 +73,29 @@ class Seeder
       db.execute('INSERT INTO teams (name, label) VALUES (?, ?)', [team[:name], team[:label]])
     end
     team_ids = db.execute('SELECT id, name FROM teams').to_h { |row| [row['name'], row['id']] }
-
+  
     players = [
-      { name: "Player1", role: "Forward", team: "Warriors" },
-      { name: "Player2", role: "Defender", team: "Warriors" },
-      { name: "Player3", role: "Forward", team: "Lions" },
-      { name: "Player4", role: "Goalkeeper", team: "Lions" },
-      { name: "Player5", role: "Midfielder", team: "Tigers" },
-      { name: "Player6", role: "Forward", team: "Tigers" },
-      { name: "Player7", role: "Defender", team: "Eagles" },
-      { name: "Player8", role: "Goalkeeper", team: "Eagles" },
-      { name: "Player9", role: "Forward", team: "Sharks" },
-      { name: "Player10", role: "Defender", team: "Sharks" }
+      { name: "Player1", role: "Forward", teams: ["Warriors", "Lions"] },
+      { name: "Player2", role: "Defender", teams: ["Warriors", "Eagles"] },
+      { name: "Player3", role: "Forward", teams: ["Lions", "Tigers"] },
+      { name: "Player4", role: "Goalkeeper", teams: ["Lions"] },
+      { name: "Player5", role: "Midfielder", teams: ["Tigers"] },
+      { name: "Player6", role: "Forward", teams: ["Tigers", "Sharks"] },
+      { name: "Player7", role: "Defender", teams: ["Eagles", "Sharks"] },
+      { name: "Player8", role: "Goalkeeper", teams: ["Eagles"] },
+      { name: "Player9", role: "Forward", teams: ["Sharks"] },
+      { name: "Player10", role: "Defender", teams: ["Sharks"] }
     ]
   
     players.each do |player|
-      team_id = team_ids[player[:team]]
-      db.execute('INSERT INTO players (name, role, team_id) VALUES (?, ?, ?)', [player[:name], player[:role], team_id])
+      db.execute('INSERT INTO players (name, role) VALUES (?, ?)', [player[:name], player[:role]])
+      player_id = db.last_insert_row_id
+      player[:teams].each do |team_name|
+        team_id = team_ids[team_name]
+        db.execute('INSERT INTO team_players (team_id, player_id) VALUES (?, ?)', [team_id, player_id])
+      end
     end
-
+  
     # Calendar data for events
     calendar = [
       { team_name: "Warriors", date: "2025-02-17", time: "10:00", location: "Stadium" },
@@ -104,7 +115,7 @@ class Seeder
       db.execute('INSERT INTO calendar (team_id, event_date, event_time, event_location) VALUES (?, ?, ?, ?)', 
                  [team_id, event[:date], event[:time], event[:location]])
     end
-
+  
     p "Database successfully populated with users, teams, players, and events."
   end
   

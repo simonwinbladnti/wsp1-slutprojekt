@@ -9,20 +9,16 @@
 <body>
     <header>
         <div class="logo">Sports Club</div>
-        <% if @current_team %>
-            <h1>Current Team: <%= @current_team['label'] %></h1>
-        <% else %>
-            <h1>Select a Team</h1>
-        <% end %>
+        <h1>Calendar for <%= @team['name'] %></h1>
         <div class="account-tab">
             <button class="account-btn">Account</button>
             <div class="account-dropdown">
                 <% if @current_user %>
-                    <a href="logout">Log Out</a>
+                    <a href="/logout">Log Out</a>
+                    <a href="/profile">View Profile</a>
                 <% else %>
-                    <a href="login">Log In</a>
+                    <a href="/login">Log In</a>
                 <% end %>
-                <a href="/profile">View Profile</a>
                 <a href="/settings">Settings</a>
             </div>
         </div>
@@ -30,15 +26,14 @@
 
     <nav>
         <ul>
-            <li><a href="/index">Start</a></li>
-            <li><a href="/team">Team</a></li>
-            <li><a href="/calendar">Calendar</a></li>
+            <li><a href="/teams">Teams</a></li>
+            <li><a href="/teams/<%= @team['id'] %>">Team Dashboard</a></li>
+            <li><a href="/teams/<%= @team['id'] %>/calendar">Calendar</a></li>
+            <li><a href="/teams/<%= @team['id'] %>/members">Members</a></li>
         </ul>
     </nav>
 
     <main>
-        <h1>Calendar for <%= @team['name'] %></h1>
-
         <% if @calendar.any? %>
             <table>
                 <tr>
@@ -58,11 +53,11 @@
             <p>No calendar events found for this team.</p>
         <% end %>
 
-        <a href="/index">Back to Teams</a>
+        <a href="/teams/<%= @team['id'] %>">Back to Team</a>
     </main>
 
     <footer>
-        <p>&copy; 2023 Sports Club Management. All rights reserved.</p>
+        <p>&copy; 2024 Sports Club Management. All rights reserved.</p>
     </footer>
 </body>
 </html>

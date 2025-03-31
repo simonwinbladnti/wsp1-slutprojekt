@@ -1,0 +1,14 @@
+<h2>Add Event for <%= @team['name'] %></h2>
+<form action="/teams/<%= @team['id'] %>/calendar" method="post">
+    <label>Event Date:</label>
+    <input type="date" name="event_date" required>
+
+    <label>Event Time:</label>
+    <input type="time" name="event_time" required>
+
+    <label>Location:</label>
+    <input type="text" name="event_location" required>
+
+    <button type="submit">Add Event</button>
+</form>
+<a href="/teams/<%= @team['id'] %>/calendar">Back to Calendar</a>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Club Management</title>
+    <link rel="stylesheet" type="text/css" href="/style.css?<%= Time.now.to_i %>">
+</head>
+<body>
+    <header>
+        <div class="logo">Sports Club</div>
+        <h1>Sports Club Management</h1>
+        <div class="account-tab">
+            <button class="account-btn">Account</button>
+            <div class="account-dropdown">
+                <% if @current_user %>
+                    <a href="/logout">Log Out</a>
+                    <a href="/profile">View Profile</a>
+                <% else %>
+                    <a href="/login">Log In</a>
+                <% end %>
+                <a href="/settings">Settings</a>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/teams">Teams</a></li>
+            <% if @team %>
+                <li><a href="/teams/<%= @team['id'] %>/calendar">Calendar</a></li>
+                <li><a href="/teams/<%= @team['id'] %>/members">Team Members</a></li>
+                <% if admin? %>
+                    <li><a href="/teams/<%= @team['id'] %>/add_member">Add Player</a></li>
+                    <li><a href="/teams/<%= @team['id'] %>/add_event">Add Event</a></li>
+                <% end %>
+            <% end %>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Teams Selection -->
+        <section id="teams">
+            <h2>Select a Team</h2>
+            <ul>
+                <% @teams.each do |team| %>
+                    <li>
+                        <a href="/teams/<%= team['id'] %>"><%= team['name'] %></a>
+                    </li>
+                <% end %>
+            </ul>
+        </section>
+
+        <!-- Selected Team Details -->
+        <% if @team %>
+            <section id="team">
+                <h2>Team: <%= @team['name'] %></h2>
+
+                <!-- Players Section -->
+                <div class="team-section">
+                    <h3>Players</h3>
+                    <% if @players.any? %>
+                        <ul>
+                            <% @players.each do |player| %>
+                                <li><%= player['name'] %> - <%= player['role'] %></li>
+                            <% end %>
+                        </ul>
+                    <% else %>
+                        <p>No players found for this team.</p>
+                    <% end %>
+                </div>
+
+                <!-- Events Section -->
+                <div class="team-section">
+                    <h3>Upcoming Events</h3>
+                    <% if @calendar.any? %>
+                        <ul>
+                            <% @calendar.each do |event| %>
+                                <li>
+                                    <strong><%= event['event_date'] %> - <%= event['event_time'] %></strong><br>
+                                    <em>Location: <%= event['event_location'] %></em>
+                                </li>
+                            <% end %>
+                        </ul>
+                    <% else %>
+                        <p>No events scheduled for this team.</p>
+                    <% end %>
+                </div>
+            </section>
+        <% else %>
+            <p>Please select a team to view details.</p>
+        <% end %>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Sports Club Management. All rights reserved.</p>
+    </footer>
+</body>
+</html>

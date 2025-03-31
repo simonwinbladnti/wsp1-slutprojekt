@@ -1,0 +1,11 @@
+<h2>Add Player to <%= @team['name'] %></h2>
+<form action="/teams/<%= @team['id'] %>/members" method="post">
+    <label>Player Name:</label>
+    <input type="text" name="name" required>
+
+    <label>Role:</label>
+    <input type="text" name="role" required>
+
+    <button type="submit">Add Player</button>
+</form>
+<a href="/teams/<%= @team['id'] %>/members">Back to Team Members</a>
