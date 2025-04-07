@@ -28,11 +28,16 @@
             <li><a href="#">Team</a></li>
             <li><a href="#">Calendar</a></li>
         </ul>
-    </nav>
-    <main>
+        </nav>
+        <main>
         <div class="login-container">
             <h2>Login to Your Account</h2>
-              <form action="/login" method="POST" class="login-form">
+
+            <% if @error %>
+            <div class="error-message"><%= @error %></div>
+            <% end %>
+
+            <form action="/login" method="POST" class="login-form">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required>
@@ -47,6 +52,7 @@
             <p class="create-account">Don't have an account? <a href="#">Sign up</a></p>
         </div>
     </main>
+
     <footer>
         <p>&copy; 2023 Sports Club Management. All rights reserved.</p>
     </footer>

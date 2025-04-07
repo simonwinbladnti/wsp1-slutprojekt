@@ -1,9 +1,8 @@
+require_relative '../db/db'
+
 class Users
   def self.db
-    return @db if @db
-    @db = SQLite3::Database.new("db/todo.sqlite")
-    @db.results_as_hash = true
-    return @db
+    DB.connection
   end
 
   def self.all

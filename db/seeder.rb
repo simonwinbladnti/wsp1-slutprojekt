@@ -1,5 +1,6 @@
 require 'sqlite3'
 require 'bcrypt'
+require_relative './db/db'
 
 class Seeder
   def self.seed!
@@ -122,10 +123,7 @@ class Seeder
 
   private
   def self.db
-    return @db if @db
-    @db = SQLite3::Database.new('db/todo.sqlite')
-    @db.results_as_hash = true
-    @db
+    DB.connection
   end
 end
 
